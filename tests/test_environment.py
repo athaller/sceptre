@@ -369,7 +369,7 @@ class TestEnvironment(object):
         mock_stack = Mock()
         mock_stack.name = "dev/mock_stack"
         mock_stack.dependencies = [
-            "dev/vpc",
+            "vpc",
             "dev/subnets",
             "prod/sg"
         ]

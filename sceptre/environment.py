@@ -303,15 +303,21 @@ class Environment(object):
         }
 
         # Filter out dependencies which aren't under the top level environmnent
-        launch_dependencies = {
-            stack_name: [
-                dependency
-                for dependency in dependencies
-                if dependency.startswith(top_level_environment_path)
-            ]
-            for stack_name, dependencies in all_dependencies.items()
-        }
-        return launch_dependencies
+        launch_deps = {}
+
+        for stack_name, dependencies in all_dependencies.items():
+            list_of_deps = []
+            for dependency in dependencies:
+                if dependency.startswith(top_level_environment_path):
+                    list_of_deps.append(dependency)
+                elif "/" not in dependency:
+                    full_path_dependency = "{}/{}".format(
+                            top_level_environment_path,
+                            dependency)
+                    list_of_deps.append(full_path_dependency)
+                launch_deps.update({stack_name: list_of_deps})
+
+        return launch_deps
 
     def _get_delete_dependencies(self):
         """
