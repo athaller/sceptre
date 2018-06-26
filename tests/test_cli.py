@@ -17,7 +17,7 @@ from sceptre.stack_group import StackGroup
 from sceptre.stack_status import StackStatus, StackChangeSetStatus
 from sceptre.cli.helpers import setup_logging, write, ColouredFormatter
 from sceptre.cli.helpers import CustomJsonEncoder, catch_exceptions
-from sceptre.cli.helpers import get_stack_or_group
+from sceptre.cli.helpers import get_stack_or_stack_group
 from botocore.exceptions import ClientError
 from sceptre.exceptions import SceptreException
 
@@ -774,36 +774,38 @@ class TestCli(object):
         response = encoder.encode(datetime.datetime(2016, 5, 3))
         assert response == '"2016-05-03 00:00:00"'
 
-    def test_get_stack_or_group_with_stack(self):
+    def test_get_stack_or_stack_group_with_stack(self):
         ctx = MagicMock(obj={
             "sceptre_dir": sentinel.sceptre_dir,
             "user_variables": sentinel.user_variables
         })
-        stack, group = get_stack_or_group(ctx, "stack.yaml")
+        stack, group = get_stack_or_stack_group(ctx, "stack.yaml")
         self.mock_ConfigReader.assert_called_once_with(
             sentinel.sceptre_dir, sentinel.user_variables
         )
         assert isinstance(stack, Stack)
         assert group is None
 
-    def test_get_stack_or_group_with_nested_stack(self):
+    def test_get_stack_or_stack_group_with_nested_stack(self):
         ctx = MagicMock(obj={
             "sceptre_dir": sentinel.sceptre_dir,
             "user_variables": sentinel.user_variables
         })
-        stack, group = get_stack_or_group(ctx, "stack-group/dir/stack.yaml")
+        stack, group = get_stack_or_stack_group(
+                ctx, "stack-group/dir/stack.yaml"
+        )
         self.mock_ConfigReader.assert_called_once_with(
             sentinel.sceptre_dir, sentinel.user_variables
         )
         assert isinstance(stack, Stack)
         assert group is None
 
-    def test_get_stack_or_group_with_group(self):
+    def test_get_stack_or_stack_group_with_group(self):
         ctx = MagicMock(obj={
             "sceptre_dir": sentinel.sceptre_dir,
             "user_variables": sentinel.user_variables
         })
-        stack, group = get_stack_or_group(ctx, "stack-group/dir")
+        stack, group = get_stack_or_stack_group(ctx, "stack-group/dir")
         self.mock_ConfigReader.assert_called_once_with(
             sentinel.sceptre_dir, sentinel.user_variables
         )

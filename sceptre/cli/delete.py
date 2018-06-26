@@ -1,6 +1,6 @@
 import click
 
-from sceptre.cli.helpers import catch_exceptions, get_stack_or_group
+from sceptre.cli.helpers import catch_exceptions, get_stack_or_stack_group
 from sceptre.cli.helpers import confirmation
 from sceptre.stack_status import StackStatus
 
@@ -22,7 +22,7 @@ def delete_command(ctx, path, change_set_name, yes):
     """
     action = "delete"
 
-    stack, group = get_stack_or_group(ctx, path)
+    stack, group = get_stack_or_stack_group(ctx, path)
 
     if stack:
         if change_set_name:

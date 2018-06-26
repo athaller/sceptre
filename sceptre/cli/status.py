@@ -1,6 +1,10 @@
 import click
 
-from sceptre.cli.helpers import catch_exceptions, get_stack_or_group, write
+from sceptre.cli.helpers import (
+     catch_exceptions,
+     get_stack_or_stack_group,
+     write
+    )
 
 
 @click.command(name="status")
@@ -17,7 +21,7 @@ def status_command(ctx, path):
     output_format = ctx.obj["output_format"]
     no_colour = ctx.obj["no_colour"]
 
-    stack, group = get_stack_or_group(ctx, path)
+    stack, group = get_stack_or_stack_group(ctx, path)
 
     if stack:
         write(stack.get_status(), no_colour=no_colour)

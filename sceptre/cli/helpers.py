@@ -89,7 +89,7 @@ def write(var, output_format="str", no_colour=True):
     click.echo(stream)
 
 
-def get_stack_or_group(ctx, path):
+def get_stack_or_stack_group(ctx, path):
     """
     Parses the path to generate relevant Stack Group and Stack object.
 
